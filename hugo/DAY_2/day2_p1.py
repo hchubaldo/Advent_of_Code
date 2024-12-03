@@ -8,6 +8,8 @@ def asc_desc(report, key = lambda x: x):
 
 def problem_1(reports):
     count_safe = 0
+    safe_reports = []
+    unsafe_reports = []
     for report in reports:
         list_count = 1
         report_diffs = []
@@ -20,13 +22,18 @@ def problem_1(reports):
                     diff = abs(int(val_1) - int(val_2))
                     report_diffs.append(diff)
                 else:
-                    continue
+                    break
+        else:
+            unsafe_reports.append(report)
+            continue
         if len(report_diffs) >= 1:
             if min(report_diffs) > 0 and max(report_diffs) < 4:
-                print(report)
                 count_safe += 1
+                safe_reports.append(report)
+            else:
+                unsafe_reports.append(report)
 
-    return count_safe
+    return count_safe, safe_reports, unsafe_reports
 
 def main():
     reports = []
@@ -36,9 +43,12 @@ def main():
             line = line.strip('\n').split(' ')
             reports.append(line)
 
-    ans = problem_1(reports)
+    ans, safe_reports, unsafe_reports = problem_1(reports)
 
     print(ans)
+    print(f'Safe reports: {len(safe_reports)}')
+    print(f'Unsafe reports: {len(unsafe_reports)}')
+
 
 if __name__ == '__main__':
     main()
